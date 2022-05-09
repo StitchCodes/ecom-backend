@@ -47,19 +47,24 @@ router.post('/', async (req, res) => {
   }
 });
 
+// update a tag by its `id` value
 router.put('/:id', async (req, res) => {
-  // update a tag's name by its `id` value
-  // Tag.update(req.body, {
-  //   where: {
-  //     id: req.params.id,
-  //   },
-  // })
-  //   .then((tag) => {
-  //     return Tag.findAll({ where: { tag_id: req.params.id }});
-  //   })
-  //   .then((tagNames) => {
-  //     const tagNamesId = req
-  //   })
+  try {
+    const tagData = await Tag.update(req.body, {
+      where: {
+        id: req.params.id
+      }
+    })
+    if (tagData) {
+      res.status(200).json({ message: 'Tag Updated!'});
+      return;
+    }
+
+    res.status(200).json(tagData);
+  }
+  catch (err) {
+    res.status(500).json(err);
+  }
 });
 
 router.delete('/:id', async (req, res) => {
